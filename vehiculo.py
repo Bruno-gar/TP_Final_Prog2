@@ -1,5 +1,5 @@
-import math
 from marcavehiculosenum import MarcaVehiculosEnum
+import math
 cantidadVehiculos = 0
 
 
@@ -18,6 +18,9 @@ class Vehiculo:
         self.__marca = marca
 
     def get_marca(self):
+        # print(f'--DEBUG--> marca: {self.__marca}')
+        # print(f'--DEBUG--> tipo_Dato: {type(self.__marca)}')
+        # print(f'--DEBUG--> tipo_Dato_ENUm: {type(MarcaVehiculosEnum.FORD)}')
         if(self.__marca == MarcaVehiculosEnum.FORD):
             return 'Ford'
         elif(self.__marca == MarcaVehiculosEnum.PEUGEOT):
@@ -59,11 +62,11 @@ class Vehiculo:
         if(proximo_service % 40000 == 0 ):
             print('\t-CAMBIAR LIQUIDO DE FRENOS\n')
             print('\t-CAMBIAR BUJIAS\n')
-        if(proximo_service % 60000 == 0 and (self.__modelo == MarcaVehiculosEnum.PEUGEOT or self.__modelo == MarcaVehiculosEnum.FORD)):
+        if(proximo_service % 60000 == 0 and (self.__marca == MarcaVehiculosEnum.PEUGEOT or self.__marca == MarcaVehiculosEnum.FORD)):
             print('\t-CAMBIAR CORREA DE DISTRIBUCION\n')
             print('\t-CAMBIAR TENSORES\n')
             print('\t-CAMBIAR BOMBA DE AGUA\n')            
-        if(proximo_service % 80000 == 0 and self.__modelo == MarcaVehiculosEnum.VOLSKWAGEN):
+        if(proximo_service % 80000 == 0 and self.__marca == MarcaVehiculosEnum.VOLSKWAGEN):
             print('\t-CAMBIAR BOMBA DE AGUA\n')
             print('\t-VERIFICAR TENSION CADENA DE DISTRIBUCION\n')
 

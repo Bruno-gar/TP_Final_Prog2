@@ -1,9 +1,9 @@
 
 #! /usr/bin/env python3
-from modelos.usuario import Usuario
-from modelos.vehiculo import Vehiculo
-from modelos.tipousuariosenum import TipoUsuariosEnum
-from modelos.marcavehiculosenum import MarcaVehiculosEnum
+from usuario import Usuario
+from vehiculo import Vehiculo
+from tipousuariosenum import TipoUsuariosEnum
+from marcavehiculosenum import MarcaVehiculosEnum
 import sys
 
 class Menu:
@@ -24,7 +24,7 @@ class Menu:
 
     def mostrar_menu_cliente(self):
         print("""
-                Menú del anotador:
+                Menú del Cliente:
                 1. Cargar Vehiculo
                 2. Consultar Service
                 3. Ver mis vehiculos
@@ -36,6 +36,7 @@ class Menu:
         while True:
             # reemplazar linea por 'login'...
             self.usuario_logueado = self.usuarios[1]
+            print(f'Bienvenido {self.usuario_logueado.getnombre()}')
             self.mostrar_menu_cliente()
             opcion = input("Ingresar una opcion: ")
             accion = self.opciones_cliente.get(opcion)
@@ -51,26 +52,29 @@ class Menu:
             [2] Volkswagen
             [3] Ford
             """)
-        while (not marca.isdigit() or not (marca == MarcaVehiculosEnum.VOLSKWAGEN or marca == MarcaVehiculosEnum.PEUGEOT or marca == MarcaVehiculosEnum.FORD)):
-            marca = int(input("""
+        while not marca.isdigit() and not(marca == MarcaVehiculosEnum.VOLSKWAGEN or marca == MarcaVehiculosEnum.PEUGEOT or marca == MarcaVehiculosEnum.FORD):
+            marca = input("""
                 Seleccione la marca de su coche:
                 [1] Peugeot
                 [2] Volkswagen
                 [3] Ford
-                """))
-        marca = int(marca)
+                """)
+        marca = MarcaVehiculosEnum(int(marca))
         modelo = input('Ingrese el modelo de su coche (p.e: Focus): ')
-        self.vehiculos.append(Vehiculo(marca, modelo, self.usuario_logueado))
+        nuevo_auto = Vehiculo(marca, modelo, self.usuario_logueado)
+        self.vehiculos.append(nuevo_auto)
+        print(f'ID: {nuevo_auto.get_id()}')
     
     def listar_vehiculos_cliente(self):
         for vehiculo in self.vehiculos:
             if(vehiculo.get_dueno() == self.usuario_logueado):
-                print(f'ID: {vehiculo.get_id()}\n MARCA/MODELO: {vehiculo.get_marca() + vehiculo.get_modelo()}')
+                print(f'ID: {vehiculo.get_id()}\n MARCA/MODELO: {vehiculo.get_marca()} {vehiculo.get_modelo()}')
     
     def consultar_service(self):
         id = input("Ingresar el id de su coche: ")
         while (not id.isdigit()):
             id = input("Ingresar el id de su coche: ")
+        id = int(id)
         existe = False
         for vehiculo in self.vehiculos:
             if (vehiculo.get_id() == id and vehiculo.get_dueno() == self.usuario_logueado): 
