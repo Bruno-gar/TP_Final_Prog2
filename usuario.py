@@ -1,3 +1,5 @@
+from tipousuariosenum import TipoUsuariosEnum
+
 class Usuario:
     ## CONSTRUCTOR
     def __init__(self, nombre, apellido, dni, contrasena, tipo):
@@ -30,7 +32,12 @@ class Usuario:
     # deberian cambiar a lo largo del tiempo
 
     def gettipo(self):
-        return self.__tipo
-    
+        if(self.__tipo == TipoUsuariosEnum.ADMINISTRADOR):
+            return 'Administrador'
+        elif(self.__tipo == TipoUsuariosEnum.CLIENTE):
+            return 'Cliente'
+        else: 
+            return 'Mecanico'
+            
     def getdni(self):
-        return self.__tipo
+        return self.__dni

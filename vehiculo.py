@@ -5,22 +5,20 @@ cantidadVehiculos = 0
 
 class Vehiculo:
     # CONSTRUCTOR
-    def __init__(self, marca, modelo, dueno):
+    def __init__(self, marca, modelo, dueno, activo):
         self.__marca = marca
         self.__modelo = modelo
         self.__dueno = dueno
         global cantidadVehiculos
         cantidadVehiculos += 1
         self.__id = cantidadVehiculos
+        self.__activo = activo
 
     #GETTERS Y SETTERS
     def set_marca(self, marca):
         self.__marca = marca
 
     def get_marca(self):
-        # print(f'--DEBUG--> marca: {self.__marca}')
-        # print(f'--DEBUG--> tipo_Dato: {type(self.__marca)}')
-        # print(f'--DEBUG--> tipo_Dato_ENUm: {type(MarcaVehiculosEnum.FORD)}')
         if(self.__marca == MarcaVehiculosEnum.FORD):
             return 'Ford'
         elif(self.__marca == MarcaVehiculosEnum.PEUGEOT):
@@ -39,6 +37,12 @@ class Vehiculo:
 
     def get_dueno(self):
         return self.__dueno
+        
+    def set_activo(self, activo):
+        self.__activo = activo
+
+    def get_activo(self):
+        return self.__activo
     
     ##DEVNOTE: id del vehiculo es invariante (solo get)
     def get_id(self):
