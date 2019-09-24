@@ -28,7 +28,7 @@ class Menu:
             "3": self.cargar_vehiculo,
             "4": self.borrar_vehiculo,
             "5": self.listar_usuarios,
-            # "6": self.listar_vehiculos_cliente,
+            "6": self.modificar_cliente,
             # "7": self.listar_vehiculos_cliente,
             # "8": self.listar_vehiculos_cliente,
             "9": self.salir
@@ -215,6 +215,28 @@ class Menu:
     def listar_usuarios(self):
         for usuario in self.usuarios:
             print(f'Nombre: {usuario.getnombre()} {usuario.getapellido()} DNI: {usuario.getdni()} TIPO: {usuario.gettipo()}')
+
+    def modificar_cliente (self):
+        cliente = input("Ingresar el id del cliente a modificar: ")
+        encontrado = False       
+        while (not cliente.isdigit()):
+            cliente = input("Ingresar el id del cliente a modificar: ")
+        cliente = int(cliente)
+        while not encontrado:
+            for usuario in self.usuarios:
+                if (cliente == usuario.getdni()):
+                    usuario.setnombre(input ('Ingrese el nuevo nombre: '))
+                    usuario.setapellido(input ('Ingrese el nuevo apellido: '))
+                    print(f'Usuario {cliente} modificado exitosamente.')
+                    encontrado = True
+            if not encontrado:
+                print('No se encontro el DNI. Intente nuevamente')
+                cliente = input("Ingrese el ID de cliente a modificar: ")
+                while not cliente.isdigit():
+                    cliente = input("Ingrese el DNI de cliente a modificar: ")
+                cliente = int(cliente)
+
+
 
     def salir(self):
         print("Gracias por utilizar el sistema.")
