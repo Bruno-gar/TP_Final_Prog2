@@ -29,7 +29,7 @@ class Menu:
             "4": self.borrar_vehiculo,
             "5": self.listar_usuarios,
             "6": self.modificar_cliente,
-            # "7": self.listar_vehiculos_cliente,
+            "7": self.agregar_usuario,
             # "8": self.listar_vehiculos_cliente,
             "9": self.salir
         }
@@ -109,7 +109,7 @@ class Menu:
             [2] Volkswagen
             [3] Ford
             """)
-        while not marca.isdigit() and not(marca == MarcaVehiculosEnum.VOLSKWAGEN or marca == MarcaVehiculosEnum.PEUGEOT or marca == MarcaVehiculosEnum.FORD):
+        while not marca.isdigit() or not(int(marca) == MarcaVehiculosEnum.VOLSKWAGEN.value or int(marca) == MarcaVehiculosEnum.PEUGEOT.value or int(marca) == MarcaVehiculosEnum.FORD.value):
             marca = input("""
                 Seleccione la marca de su coche:
                 [1] Peugeot
@@ -130,7 +130,7 @@ class Menu:
             [2] Volkswagen
             [3] Ford
             """)
-        while not marca.isdigit() and not(marca == MarcaVehiculosEnum.VOLSKWAGEN or marca == MarcaVehiculosEnum.PEUGEOT or marca == MarcaVehiculosEnum.FORD):
+        while not marca.isdigit() or not(int(marca) == MarcaVehiculosEnum.VOLSKWAGEN.value or int(marca) == MarcaVehiculosEnum.PEUGEOT.value or int(marca) == MarcaVehiculosEnum.FORD.value):
             marca = input("""
                 Seleccione la marca de su coche:
                 [1] Peugeot
@@ -235,6 +235,33 @@ class Menu:
                 while not cliente.isdigit():
                     cliente = input("Ingrese el DNI de cliente a modificar: ")
                 cliente = int(cliente)
+
+    def agregar_usuario(self):
+        tipo = input("""
+            Seleccione tipo de usuario:
+            [1] Mecanico
+            [2] Cliente
+            [3] Admin
+            """)
+
+        while not tipo.isdigit() or not (int(tipo) == TipoUsuariosEnum.ADMINISTRADOR.value or int(tipo) == TipoUsuariosEnum.CLIENTE.value or int(tipo) == TipoUsuariosEnum.MECANICO.value):
+            tipo = input("""
+            Seleccione tipo de usuario:
+            [1] Mecanico
+            [2] Cliente
+            [3] Admin
+            """)
+        tipo = TipoUsuariosEnum(int(tipo))
+        nombre = input('Ingrese nombre del usurio: ')
+        apellido = input('Ingrese apellido del usurio: ')
+        contrasena = input('Ingrese contraseña del usurio: ')
+        dni = input('Ingrese dni del usurio: ')
+        while not dni.isdigit():
+            dni = input('Ingrese dni del usurio: ')
+        dni = int(dni)
+        self.usuarios.remove(Usuario(nombre, apellido, dni, contrasena, tipo))
+        print('Usuario agregado exitosamente!')
+        self.listar_usuarios()
 
 
 
