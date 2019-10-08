@@ -6,15 +6,20 @@ from tipousuariosenum import TipoUsuariosEnum
 from marcavehiculosenum import MarcaVehiculosEnum
 import sys
 
+
 class Menu:
     '''Mostrar un menu y responder a las opciones'''
+
     def __init__(self):
         self.usuarios = []
         self.vehiculos = []
         # SUPONEMOS QUE HAY TRES USUARIOS PRE-CARGADOS
-        self.usuarios.append(Usuario('Juan', 'Perez', 1, 'meca', TipoUsuariosEnum.MECANICO))
-        self.usuarios.append(Usuario('Esteban', 'Quito', 2, 'client', TipoUsuariosEnum.CLIENTE))
-        self.usuarios.append(Usuario('Juan', 'Perez', 3, 'dios', TipoUsuariosEnum.ADMINISTRADOR))
+        self.usuarios.append(
+            Usuario('Juan', 'Perez', 1, 'meca', TipoUsuariosEnum.MECANICO))
+        self.usuarios.append(
+            Usuario('Esteban', 'Quito', 2, 'client', TipoUsuariosEnum.CLIENTE))
+        self.usuarios.append(
+            Usuario('Juan', 'Perez', 3, 'dios', TipoUsuariosEnum.ADMINISTRADOR))
         self.opciones_cliente = {
             "1": self.cargar_vehiculo_cliente,
             "2": self.consultar_service_cliente,
@@ -24,13 +29,13 @@ class Menu:
         self.opciones_admin = {
             "0": self.consultar_service,
             "1": self.listar_vehiculos,
-            # "2": self.cargar_vehiculo_cliente,
+            "2": self.modificar_vehiculo,
             "3": self.cargar_vehiculo,
             "4": self.borrar_vehiculo,
             "5": self.listar_usuarios,
             "6": self.modificar_cliente,
             "7": self.agregar_usuario,
-            # "8": self.listar_vehiculos_cliente,
+            #"8": self.borrar_usuario,
             "9": self.salir
         }
 
@@ -159,12 +164,12 @@ class Menu:
                     cliente = input("Ingrese el DNI de cliente")
                 cliente = int(cliente)
 
-    
     def listar_vehiculos_cliente(self):
         for vehiculo in self.vehiculos:
             if(vehiculo.get_dueno() == self.usuario_logueado and vehiculo.get_activo()):
-                print(f'ID: {vehiculo.get_id()}\n MARCA/MODELO: {vehiculo.get_marca()} {vehiculo.get_modelo()}')
-    
+                print(
+                    f'ID: {vehiculo.get_id()}\n MARCA/MODELO: {vehiculo.get_marca()} {vehiculo.get_modelo()}')
+
     def consultar_service_cliente(self):
         id = input("Ingresar el id de su coche: ")
         while (not id.isdigit()):
@@ -172,27 +177,27 @@ class Menu:
         id = int(id)
         existe = False
         for vehiculo in self.vehiculos:
-            if (vehiculo.get_id() == id and vehiculo.get_activo() and vehiculo.get_dueno() == self.usuario_logueado): 
+            if (vehiculo.get_id() == id and vehiculo.get_activo() and vehiculo.get_dueno() == self.usuario_logueado):
                 existe = True
                 vehiculo.consultar_proximo_servicio()
             if (not existe):
                 print('No se encontro un coche activo a su nombre con ese id')
 
     def consultar_service(self):
+        id = input("Ingresar el id del coche: ")
+        while (not id.isdigit()):
             id = input("Ingresar el id del coche: ")
-            while (not id.isdigit()):
-                id = input("Ingresar el id del coche: ")
-            id = int(id)
-            existe = False
-            for vehiculo in self.vehiculos:
-                if (vehiculo.get_id() == id and vehiculo.get_activo()): 
-                    existe = True
-                    dueno = vehiculo.get_dueno()
-                    print(f'Dueño: {dueno.getnombre} {dueno.getapellido}')
-                    vehiculo.consultar_proximo_servicio()
-                if (not existe):
-                    print('No se encontro un coche activo de ese usuario con ese id')
-    
+        id = int(id)
+        existe = False
+        for vehiculo in self.vehiculos:
+            if (vehiculo.get_id() == id and vehiculo.get_activo()):
+                existe = True
+                dueno = vehiculo.get_dueno()
+                print(f'Dueño: {dueno.getnombre} {dueno.getapellido}')
+                vehiculo.consultar_proximo_servicio()
+            if (not existe):
+                print('No se encontro un coche activo de ese usuario con ese id')
+
     def listar_vehiculos(self):
         for vehiculo in self.vehiculos:
             print(f'Dueno: {vehiculo.get_dueno().getnombre()} {vehiculo.get_dueno().getapellido()} / Coche: {vehiculo.get_marca()} {vehiculo.get_modelo()}')
@@ -205,7 +210,7 @@ class Menu:
         id = int(id)
         existe = False
         for vehiculo in self.vehiculos:
-            if (vehiculo.get_id() == id and vehiculo.get_activo()): 
+            if (vehiculo.get_id() == id and vehiculo.get_activo()):
                 existe = True
                 vehiculo.set_activo(False)
                 print(f'Vehiculo {id} eliminado exitosamente')
@@ -214,19 +219,20 @@ class Menu:
 
     def listar_usuarios(self):
         for usuario in self.usuarios:
-            print(f'Nombre: {usuario.getnombre()} {usuario.getapellido()} DNI: {usuario.getdni()} TIPO: {usuario.gettipo()}')
+            print(
+                f'Nombre: {usuario.getnombre()} {usuario.getapellido()} DNI: {usuario.getdni()} TIPO: {usuario.gettipo()}')
 
-    def modificar_cliente (self):
+    def modificar_cliente(self):
         cliente = input("Ingresar el id del cliente a modificar: ")
-        encontrado = False       
+        encontrado = False
         while (not cliente.isdigit()):
             cliente = input("Ingresar el id del cliente a modificar: ")
         cliente = int(cliente)
         while not encontrado:
             for usuario in self.usuarios:
                 if (cliente == usuario.getdni()):
-                    usuario.setnombre(input ('Ingrese el nuevo nombre: '))
-                    usuario.setapellido(input ('Ingrese el nuevo apellido: '))
+                    usuario.setnombre(input('Ingrese el nuevo nombre: '))
+                    usuario.setapellido(input('Ingrese el nuevo apellido: '))
                     print(f'Usuario {cliente} modificado exitosamente.')
                     encontrado = True
             if not encontrado:
@@ -263,15 +269,49 @@ class Menu:
         print('Usuario agregado exitosamente!')
         self.listar_usuarios()
 
-
+    def modificar_vehiculo(self):
+        id_vehiculo = input("Ingresar el id del vehiculo a modificar: ")
+        encontrado = False
+        while (not id_vehiculo.isdigit()):
+            id_vehiculo = input("Ingresar el id del vehiculo a modificar: ")
+        id_vehiculo = int(id_vehiculo)
+        while not encontrado:
+            for vehiculo in self.vehiculos:
+                if (id_vehiculo == vehiculo.get_id()):
+                    marca = input("""
+                        Seleccione la marca de su coche:
+                        [1] Peugeot
+                        [2] Volkswagen
+                        [3] Ford
+                        """)
+                    while not marca.isdigit() or not(int(marca) == MarcaVehiculosEnum.VOLSKWAGEN.value or int(marca) == MarcaVehiculosEnum.PEUGEOT.value or int(marca) == MarcaVehiculosEnum.FORD.value):
+                        marca = input("""
+                            Seleccione la marca de su coche:
+                            [1] Peugeot
+                            [2] Volkswagen
+                            [3] Ford
+                            """)
+                    marca = MarcaVehiculosEnum(int(marca))
+                    vehiculo.set_marca(marca)
+                    vehiculo.set_modelo(input('Ingrese el nuevo modelo: '))
+                    print(f'Coche {vehiculo.get_id()} modificado exitosamente.')
+                    encontrado = True
+            if not encontrado:
+                print('No se encontro el Vehiculo. Intente nuevamente')
+                vehiculo = input("Ingrese el ID de vehiculo a modificar: ")
+                while not vehiculo.isdigit():
+                    vehiculo = input(
+                        "Ingrese el DNI de vehiculo a modificar: ")
+                vehiculo = int(vehiculo)
 
     def salir(self):
         print("Gracias por utilizar el sistema.")
         sys.exit(0)
 
-#Esta parte del cÃƒÂ³digo estÃƒÂ¡ fuera de la clase Menu.
-#Si este archivo es el programa principal (es decir, si no ha sido importado
-#desde otro mÃƒÂ³dulo, sino ejecutado directamente), entonces llamamos al mÃƒÂ©todo
+
+# Esta parte del cÃƒÂ³digo estÃƒÂ¡ fuera de la clase Menu.
+# Si este archivo es el programa principal (es decir, si no ha sido importado
+# desde otro mÃƒÂ³dulo, sino ejecutado directamente), entonces llamamos al mÃƒÂ©todo
 # ejecutar().
 if __name__ == "__main__":
     Menu().ejecutar()
