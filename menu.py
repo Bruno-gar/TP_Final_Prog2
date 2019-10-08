@@ -15,11 +15,11 @@ class Menu:
         self.vehiculos = []
         # SUPONEMOS QUE HAY TRES USUARIOS PRE-CARGADOS
         self.usuarios.append(
-            Usuario('Juan', 'Perez', 1, 'meca', TipoUsuariosEnum.MECANICO))
+            Usuario('Juan', 'Perez', 1, 'dios', TipoUsuariosEnum.ADMINISTRADOR, True))
         self.usuarios.append(
-            Usuario('Esteban', 'Quito', 2, 'client', TipoUsuariosEnum.CLIENTE))
+            Usuario('Juan', 'Perez', 2, 'meca', TipoUsuariosEnum.MECANICO, True))
         self.usuarios.append(
-            Usuario('Juan', 'Perez', 3, 'dios', TipoUsuariosEnum.ADMINISTRADOR))
+            Usuario('Esteban', 'Quito', 3, 'client', TipoUsuariosEnum.CLIENTE, True))
         self.opciones_cliente = {
             "1": self.cargar_vehiculo_cliente,
             "2": self.consultar_service_cliente,
@@ -35,7 +35,7 @@ class Menu:
             "5": self.listar_usuarios,
             "6": self.modificar_cliente,
             "7": self.agregar_usuario,
-            #"8": self.borrar_usuario,
+            "8": self.borrar_usuario,
             "9": self.salir
         }
 
@@ -67,39 +67,39 @@ class Menu:
         '''Mostrar el menu y responder a las opciones.'''
         while True:
             # reemplazar linea por 'login'...
-            print("""Seleccione su tipo de usuario: 
-                    [1]: Mecanico
-                    [2]: Cliente
-                    [3]: Admin
+            print("""Seleccione su tipo de usuario:
+                    [1] Admin
+                    [2] Mecanico
+                    [3] Cliente
                     [4]: Salir""")
             modo = input('Seleccione una opcion: ')
             while not modo.isdigit():
-                print("""Seleccione su tipo de usuario: 
-                    [1]: Mecanico
-                    [2]: Cliente
-                    [3]: Admin
+                print("""Seleccione su tipo de usuario:
+                    [1] Admin
+                    [2] Mecanico
+                    [3] Cliente
                     [4]: Salir""")
                 modo = input('Seleccione una opcion: ')
             modo = int(modo)
             if (modo == 1):
-                # self.usuario_logueado = self.usuarios[0]
-                # print(f'Bienvenido {self.usuario_logueado.getnombre()}')
-                # self.mostrar_menu_mecanico()
-                # opcion = input("Ingresar una opcion: ")
-                # accion = self.opciones_mecanico.get(opcion)
-                print('No implementado, cdtm!')
-            elif (modo == 2):
-                self.usuario_logueado = self.usuarios[1]
-                print(f'Bienvenido {self.usuario_logueado.getnombre()}')
-                self.mostrar_menu_cliente()
-                opcion = input("Ingresar una opcion: ")
-                accion = self.opciones_cliente.get(opcion)
-            elif (modo == 3):
-                self.usuario_logueado = self.usuarios[2]
+                self.usuario_logueado = self.usuarios[0]
                 print(f'Bienvenido {self.usuario_logueado.getnombre()}')
                 self.mostrar_menu_admin()
                 opcion = input("Ingresar una opcion: ")
                 accion = self.opciones_admin.get(opcion)
+            elif (modo == 2):
+                # self.usuario_logueado = self.usuarios[1]
+                # print(f'Bienvenido {self.usuario_logueado.getnombre()}')
+                # self.mostrar_menu_mecanico()
+                # opcion = input("Ingresar una opcion: ")
+                # accion = self.opciones_mecanico.get(opcion)
+                print('No implementado!')
+            elif (modo == 3):
+                self.usuario_logueado = self.usuarios[2]
+                print(f'Bienvenido {self.usuario_logueado.getnombre()}')
+                self.mostrar_menu_cliente()
+                opcion = input("Ingresar una opcion: ")
+                accion = self.opciones_cliente.get(opcion)
             else:
                 self.salir()
             if accion:
@@ -217,6 +217,20 @@ class Menu:
             if (not existe):
                 print('No se encontro un coche activo con ese id')
 
+    def borrar_usuario(self):
+        id = input("Ingresar el dni del usuario: ")
+        while (not id.isdigit()):
+            id = input("Ingresar el dni del usuario: ")
+        id = int(id)
+        existe = False
+        for usuario in self.usuarios:
+            if (usuario.getdni() == id and usuario.getactivo()):
+                existe = True
+                usuario.setactivo(False)
+                print(f'Usuario {id} eliminado exitosamente')
+            if (not existe):
+                print('No se encontro un usuario activo con ese id')
+
     def listar_usuarios(self):
         for usuario in self.usuarios:
             print(
@@ -253,9 +267,9 @@ class Menu:
         while not tipo.isdigit() or not (int(tipo) == TipoUsuariosEnum.ADMINISTRADOR.value or int(tipo) == TipoUsuariosEnum.CLIENTE.value or int(tipo) == TipoUsuariosEnum.MECANICO.value):
             tipo = input("""
             Seleccione tipo de usuario:
-            [1] Mecanico
-            [2] Cliente
-            [3] Admin
+            [1] Admin
+            [2] Mecanico
+            [3] Cliente
             """)
         tipo = TipoUsuariosEnum(int(tipo))
         nombre = input('Ingrese nombre del usurio: ')
@@ -265,7 +279,7 @@ class Menu:
         while not dni.isdigit():
             dni = input('Ingrese dni del usurio: ')
         dni = int(dni)
-        self.usuarios.remove(Usuario(nombre, apellido, dni, contrasena, tipo))
+        self.usuarios.append(Usuario(nombre, apellido, dni, contrasena, tipo, True))
         print('Usuario agregado exitosamente!')
         self.listar_usuarios()
 

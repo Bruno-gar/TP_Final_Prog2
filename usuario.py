@@ -2,14 +2,22 @@ from tipousuariosenum import TipoUsuariosEnum
 
 class Usuario:
     ## CONSTRUCTOR
-    def __init__(self, nombre, apellido, dni, contrasena, tipo):
+    def __init__(self, nombre, apellido, dni, contrasena, tipo, activo):
         self.__nombre = nombre
         self.__apellido = apellido
         self.__dni = dni
         self.__contrasena = contrasena
         self.__tipo = tipo
+        self.__activo = activo
     
     ## GETTERS Y SETTERS
+
+    def setactivo(self, activo):
+        self.__activo = activo
+
+    def getactivo(self):
+        return self.__activo
+
     def setnombre(self, nombre):
         self.__nombre = nombre
 
